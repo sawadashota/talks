@@ -1,4 +1,4 @@
-Try Go on GAE
+What Learn for Go on GAE
 Gopher Dojo #2
 8 Jul 2018
 
@@ -15,7 +15,7 @@ Shota Sawada
 
 * 個人で作ったGoなWeb Appをどうやって安く公開するか
 
-: いくつか選択肢がありますが、僕は最近はじめたGAEにハマっています
+: いくつか選択肢がありますが、僕は最近はじめたGoogle App Engineにハマっています
 
 - Google App Engine
 - Heroku
@@ -130,6 +130,6 @@ Option
 
 * まとめ
 
-- インフラがそこまで得意じゃないエンジニアでも難なくリリースできた
+- インフラがそこまで得意じゃないエンジニアもハマりどころがわかっていれば簡単にリリースできる
 - GAE用にGoの記述を書かなければならないが、実装を工夫すればロックインされない
 - datastoreやmemcacheなどをフル活用しても同じことが言えるかは今後、検証していきたい
