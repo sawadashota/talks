@@ -1,0 +1,135 @@
+Try Go on GAE
+Gopher Dojo #2
+8 Jul 2018
+
+Shota Sawada
+@xioota
+
+* About Me
+
+.image img/icon.png 200 _
+
+- @sawadashota
+- @xioota (Twitter)
+- Rails Engineer / Frontend Engineer
+
+* 個人で作ったGoなWeb Appをどうやって安く公開するか
+
+: いくつか選択肢がありますが、僕は最近はじめたGAEにハマっています
+
+- Google App Engine
+- Heroku
+- Lambda
+- ECS
+- etc...
+
+* Google App Engineのいいところ
+
+: 個人開発する上で
+
+- ほぼ[[https://cloud.google.com/appengine/pricing?hl=j][無料※]]
+- 簡単 (AWSと比べて)
+- 速い (Herokuと比べて)
+- サーバーレスとしても使える
+- MemcacheやDatastoreなどもほぼ無料※で使える
+- テンションあがる (オレオレ調べ)
+
+* GAEでGoを動かすために学習したこと
+
+- HTTP Handlerの登録
+- HTTP Clientの実装
+- `main.go` の配置
+- GAEの設定
+- Deploy
+
+* HTTP Handlerの登録
+
+普段書いているコード
+
+: http.ListenAndServe が appengine.Mainになっただけです
+
+.code src/normal-http.go /^func main/,/^}/
+
+GAEではこう書く
+
+.code src/appengine-http.go /^func main/,/^}/
+
+* HTTP Clientの実装
+
+GAEでは `http.DefaultClient` を使うことができず、 `urlfetch.Client` を使う
+`http.Client` を差し替えられるようにしておくよい
+
+  func request(method, url string, client *http.Client) (*http.Response, error) {
+    // TODO: Implements
+  }
+
+呼び出し側
+
+.code src/appengine-request.go /^func HogeHandler/,/^}/
+
+* main.goの配置
+
+- `main.go` 用のディレクトリを作る
+- `main.go` のあるディレクトリにサブディレクトリを作ってしまうと相対パスでパッケージをインポートすることになる
+  .
+  ├── app
+  │   ├── app.yaml
+  │   └── main.go
+  ├── domain
+  ├── handler
+  ├── infrastructure
+  └── lib
+
+: 知っていればなんてこともないんですが、でも知らなかったので少しハマりました
+
+* GAEの設定
+
+`app.yaml` の最低限の記述
+
+  runtime: go
+  api_version: go1.9
+  handlers:
+  - url: /.*
+    script: _go_app
+
+.caption Handlersの設定でCORS、OAuth、HTTPSの強制もできる
+.link https://cloud.google.com/appengine/docs/standard/go/config/appref
+
+* Deploy
+
+* Deploy用Service Accountに必要な権限
+
+: ローカルからデプロイするだけならサービスアカウントは不要ですが、CIなどでデプロイするのであれば作ったほうがよさげ
+
+Must
+
+- App Engine Deployer or App Engine Admin
+- Storage Admin
+
+: どういう条件でApp Engine Adminにしないといけないか調べられていないが
+: 後述するgcloudコマンドでapp.yamlごとデプロイする方法ではApp Engine Admin権限が必要
+
+Option
+
+- Datastore Index Admin ( `index.yaml` )
+- Cloud Scheduler Admin ( `cron.yaml` )
+- Cloud Tasks Queue Admin ( `queue.yaml` )
+
+.link https://cloud.google.com/appengine/docs/standard/python/granting-project-access
+
+* Google App Engine Admin APIを有効化する
+
+  $ gcloud services enable appengine.googleapis.com
+
+.link https://console.cloud.google.com/apis/library/appengine.googleapis.com
+
+* Service AccountでDeploy
+
+  $ gcloud auth activate-service-account --key-file=gcloud-service-key.json
+  $ gcloud app deploy ./app/app.yaml --project $GCLOUD_PROJECT --quiet
+
+* まとめ
+
+- インフラがそこまで得意じゃないエンジニアでも難なくリリースできた
+- GAE用にGoの記述を書かなければならないが、実装を工夫すればロックインされない
+- datastoreやmemcacheなどをフル活用しても同じことが言えるかは今後、検証していきたい
