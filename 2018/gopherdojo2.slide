@@ -5,6 +5,8 @@ Gopher Dojo #2
 Shota Sawada
 @xioota
 
+: 個人で開発したGo製のWep ApplicationをGAEで公開するために勉強したことを発表させていただきます
+
 * About Me
 
 .image img/icon.png 200 _
@@ -25,7 +27,7 @@ Shota Sawada
 
 * Google App Engineのいいところ
 
-: 個人開発する上で
+: 個人開発する上で、いろいろなコストが安かったり、使っていてテンションあがるので好きです
 
 - ほぼ[[https://cloud.google.com/appengine/pricing?hl=j][無料※]]
 - 簡単 (AWSと比べて)
@@ -35,6 +37,8 @@ Shota Sawada
 - テンションあがる (オレオレ調べ)
 
 * GAEでGoを動かすために学習したこと
+
+: 5つ発表させていただきます
 
 - HTTP Handlerの登録
 - HTTP Clientの実装
@@ -94,6 +98,9 @@ GAEでは `http.DefaultClient` を使うことができず、 `urlfetch.Client` 
 
 .caption Handlersの設定でCORS、OAuth、HTTPSの強制もできる
 .link https://cloud.google.com/appengine/docs/standard/go/config/appref
+
+: とりあえずこれだけで動く
+: api_versionでGoのマイナーバージョンまで指定しておいたほうがいいです
 
 * Deploy
 
