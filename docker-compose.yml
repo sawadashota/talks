@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  present:
+    build:
+      context: .
+    ports:
+      - 3999:3999
+    volumes:
+      - .:/go/src/github.com/sawadashota/talks
