@@ -1,0 +1,17 @@
+version: 2.1
+
+orbs:
+  orb-update: sawadashota/orb-update@volatile
+
+workflows:
+  orb-update:
+    jobs:
+      - orb-update/orb-update:
+          context: orb-update
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master

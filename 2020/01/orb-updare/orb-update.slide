@@ -1,0 +1,80 @@
+Introduce an orb-update orb
+CircleCI ユーザーコミュニティミートアップ#8
+16 Jan 2020
+
+Shota Sawada
+https://github.com/sawadashota/orb-update
+https://circleci.com/orbs/registry/orb/sawadashota/orb-update
+@xioota
+
+* About Me
+
+.image img/icon.png 200 _
+
+- @sawadashota
+- @xioota (Twitter)
+- SRE at CrowdWorks
+
+* ライブラリのバージョン追従やってますか？
+
+* Dependabot
+
+.image img/dependabot.png _ 1000
+
+* Dependabotがやってくれること
+
+- ライブラリのバージョンアップしてPRを作成
+- CHANGELOGや互換性など、レビューの助けになる情報をPRに表示
+- 自動Merge
+
+* Dependabotを使ってみてわかったこと
+
+- めっちゃ便利
+- PRを作ってくれるとバージョンを上げなきゃという意識が芽生える
+- 自動Mergeはむずい
+- 他のライブラリなども最新バージョンじゃないと気持ち悪いと思えてくる
+
+* ところで
+
+* orbのバージョン追従やってますか？
+
+* orbのバージョン追従に対する想い
+
+- パワーを割きたくない
+- 楽に追従できるならしたい
+
+* そこでorb-update作りました!
+
+.image img/orb-update.png _ 1000
+.link https://github.com/sawadashota/orb-update
+.link https://circleci.com/orbs/registry/orb/sawadashota/orb-update
+
+* orb-updateでできること
+
+- orbのバージョンアップを検知してPR作成
+
+今はこれだけです
+
+* 使い方
+
+- 環境変数 `GITHUB_USERNAME` と `GITHUB_TOKEN` を設定する
+- orbを使う
+
+.code src/orb-sample.yml
+
+* PRが作られる
+
+Featureブランチでそのリポジトリで使用しているorbの機能や引数を網羅していれば機械的にマージできる
+
+.image img/pr.png _ 800
+
+* Best Practice
+
+- WorkflowのCronで毎日動かす
+- 使っているorbがfeatureブランチで全部使われるようにしておく
+- Bot UserのGitHub Tokenを使う
+
+* Configuration File
+
+.code src/configuration.yml
+

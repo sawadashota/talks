@@ -1,0 +1,21 @@
+target_files:
+  - .circleci/config.yml
+
+repository:
+  name: sawadashota/orb-update
+
+git:
+  author: # 未設定の場合、GitHubの情報からよしなに設定される
+    name: sawadashota
+    email: example@example.com
+
+github:
+  pull_request: true
+
+base_branch: master
+
+filesystem:
+  strategy: memory
+
+ignore:
+  - circleci/orb-tools
